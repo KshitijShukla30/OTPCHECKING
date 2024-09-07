@@ -10,12 +10,11 @@ export const generateOtp = async () => {
   }
 };
 
-export const verifyOtp = async (otp) => {
+export const verifyOtp = async (data) => {
   try {
-    const response = await axios.post('/api/otp/verify', { otp });
+    const response = await axios.post('https://otp-service-beta.vercel.app/api/otp/verify', data);
     return response.data;
   } catch (error) {
-    console.error('Error verifying OTP:', error);
-    return null;
+    throw error;
   }
 };

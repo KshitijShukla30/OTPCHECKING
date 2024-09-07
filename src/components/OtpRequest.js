@@ -1,18 +1,21 @@
 import axios from 'axios';
 import { useState, useEffect } from 'react';
+import { useOtp } from '../context/OtpContext';
 
 export default function OtpRequest() {
-  const [email, setEmail] = useState('');
   const [result, setResult] = useState(null);
+  const { email, setEmail } = useOtp(); // Use context for email
+
   useEffect(() => {
     let timer;
     if (result) {
       timer = setTimeout(() => {
         setResult(null);
-      }, 5000);
+      }, 10000);
     }
     return () => clearTimeout(timer);
   }, [result]);
+
   const sendOtpRequest = async () => {
     if (email === '') {
       setResult('Please enter the email');
@@ -26,10 +29,10 @@ export default function OtpRequest() {
     };
 
     try {
-      const response = await axios.post('/api/otp/generate', data);
-      console.log('OTP sent:', response.data);
+      const response = await axios.post('https://otp-service-beta.vercel.app/api/otp/generate', data); // Use the proxied path
+      setResult(response.data.message); // Set the result to the response message
     } catch (error) {
-      console.error('Error sending OTP request:', error);
+      setResult('Error sending OTP request: ' + error.message);
     }
   };
 
@@ -40,7 +43,7 @@ export default function OtpRequest() {
         placeholder="Enter your email"
         className="w-full px-4 py-2 mb-4 border border-grey-800 rounded-lg focus:outline-none focus:ring-2 focus:ring-purple-600"
         value={email}
-        onChange={(e) => setEmail(e.target.value)}
+        onChange={(e) => setEmail(e.target.value)} // Update context email
       />
       <a href="#_" className="relative inline-flex items-center justify-center p-1 px-1 py-8 overflow-hidden font-medium text-indigo-600 transition duration-400 ease-out rounded-full shadow-xl group hover:ring-1 hover:ring-purple-500 w-64">
         <span className="absolute inset-0 w-full h-full bg-gradient-to-br from-blue-600 via-purple-600 to-pink-700"></span>
@@ -50,7 +53,7 @@ export default function OtpRequest() {
         </span>
       </a>
       {result && (
-        <div className={`mt-4 text-lg font-semibold ${result.includes('Success') ? 'text-green-600' : 'text-red-600'}`}>
+        <div className={`mt-4 text-lg font-semibold ${result.includes('OTP is generated') ? 'text-green-600' : 'text-red-600'}`}>
           {result}
         </div>
       )}
