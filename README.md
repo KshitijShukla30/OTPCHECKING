@@ -1,36 +1,80 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+This is a Next.js application that provides OTP (One-Time Password) generation and verification services.
 
-## Getting Started
+## Features
 
-First, run the development server:
+- OTP Generation
+- OTP Verification
+- Email-based OTP delivery
 
-```bash
+## Prerequisites
+
+Before you begin, ensure you have met the following requirements:
+
+- Node.js (v14 or later)
+- npm (v6 or later)
+
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/KshitijShukla30/OTPCHECKING.git
+   cd otp-service
+   ```
+
+2. Install the dependencies:
+   ```bash
+   npm install
+   ```
+
+## Running the Application
+
+To run the application in development mode:
+
+```
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+The application will be available at `http://localhost:3000`.
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## Building for Production
 
-This project uses [`next/font`](https://nextjs.org/docs/basic-features/font-optimization) to automatically optimize and load Inter, a custom Google Font.
+To create a production build:
 
-## Learn More
+```
+npm run build
+```
 
-To learn more about Next.js, take a look at the following resources:
+To start the production server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```
+npm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
+## Project Structure
 
-## Deploy on Vercel
+- `src/components/`: React components
+- `src/pages/`: Next.js pages
+- `src/services/`: API services
+- `src/context/`: React context for state management
+- `src/app/`: Global styles
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Configuration
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+- Tailwind CSS configuration is in `tailwind.config.js`
+- PostCSS configuration is in `postcss.config.mjs`
+
+## API Routes
+
+The application uses the following API routes:
+
+- `/api/otp/generate`: POST request to generate an OTP
+
+  - Request body: `{ email, type, organization, subject }`
+  - Response: `{ message }`
+
+- `/api/otp/verify`: POST request to verify an OTP
+  - Request body: `{ email, otp }`
+  - Response: `{ message }`
+
+These routes are handled by the OTP service hosted at `https://otp-service-beta.vercel.app`.
